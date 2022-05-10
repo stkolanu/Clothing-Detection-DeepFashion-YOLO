@@ -3,7 +3,7 @@ import os
 import cv2
 from yolo.utils.utils import *
 from predictors.YOLOv3 import YOLOv3Predictor
-from predictors.DetectronModels import Predictor
+# from predictors.DetectronModels import Predictor
 import glob
 from tqdm import tqdm
 import sys
@@ -15,9 +15,9 @@ torch.cuda.empty_cache()
 
 
 #YOLO PARAMS
-yolo_df2_params = {   "model_def" : "yolo/df2cfg/yolov3-df2.cfg",
-"weights_path" : "yolo/weights/yolov3-df2_15000.weights",
-"class_path":"yolo/df2cfg/df2.names",
+yolo_df2_params = {   "model_def" : "/content/gdrive/MyDrive/IITISM_Project_Thesis/DeepFashion_Model/yolov3-df2.cfg",
+"weights_path" : "/content/gdrive/MyDrive/IITISM_Project_Thesis/DeepFashion_Model/yolov3-df2_15000.weights",
+"class_path":"/content/gdrive/MyDrive/IITISM_Project_Thesis/DeepFashion_Model/df2.names",
 "conf_thres" : 0.5,
 "nms_thres" :0.4,
 "img_size" : 416,
@@ -33,7 +33,7 @@ yolo_modanet_params = {   "model_def" : "yolo/modanetcfg/yolov3-modanet.cfg",
 
 
 #DATASET
-dataset = 'modanet'
+dataset = 'df2'
 
 
 if dataset == 'df2': #deepfashion2
@@ -66,9 +66,9 @@ else:
 #Faster RCNN / RetinaNet / Mask RCNN
 
 
-
-while(True):
-    path = input('img path: ')
+path_folder = '/content/Images'
+for imageName in glob.glob(path_folder+'/*.jpg'):
+    path = imageName
     if not os.path.exists(path):
         print('Img does not exists..')
         continue
@@ -122,7 +122,7 @@ while(True):
                 
 
                 
-    cv2.imshow('Detections',img)
+    # cv2.imshow('Detections',img)
     img_id = path.split('/')[-1].split('.')[0]
     cv2.imwrite('output/ouput-test_{}_{}_{}.jpg'.format(img_id,model,dataset),img)
     cv2.waitKey(0)
